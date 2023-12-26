@@ -16,8 +16,8 @@ GPIO.setup(ENABLE_R, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(ENABLE_L, GPIO.OUT, initial=GPIO.LOW)
 PWM_R = GPIO.PWM(R, 50)
 PWM_L = GPIO.PWM(L, 50)
-v_R = 0
-v_L = 0
+v_R = 50
+v_L = 50
 PWM_R.start(v_R)
 PWM_L.start(v_L)
 

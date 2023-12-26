@@ -71,6 +71,8 @@ class SubscriberNode(Node):
         self.joy_r = msg.data[0]
         self.joy_l = msg.data[1]
 
+        self.get_logger().info(f"Right Joystick: {self.joy_r}, Left Joystick: {self.joy_l}")
+        
         try:
             while True:
                 time.sleep(0.25)
@@ -85,7 +87,7 @@ class SubscriberNode(Node):
 #        self.pwm_control(R, self.joy_r)
 #        self.pwm_control(L, self.joy_l)
 
-        self.get_logger().info(f"Right Joystick: {self.joy_r}, Left Joystick: {self.joy_l}")
+
 
 def main():
     print("Starting ROS2 Node.")

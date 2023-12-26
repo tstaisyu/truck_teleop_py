@@ -15,6 +15,8 @@ class SubscriberNode(Node):
         self.joy_r = 0
         self.joy_l = 0
 
+        print("Starting SubscriberNode initialization...")
+
         self.get_logger().info("Setting up GPIO using JetsonGPIO...")
 
         GPIO.setmode(GPIO.BOARD)
@@ -32,7 +34,22 @@ class SubscriberNode(Node):
             10)
         self.get_logger().info("Subscription created successfully.")
 
+        print("SubscriberNode initialization completed.")
+
+    def pwm_control(self, pin, duty_cycle):
+        print(f"Executing PWM control on pin {pin} with duty cycle {duty_cycle}")
+        duty_cycle = max(0, min(duty_cycle, 100))
+
+        if duty_cycle > 0:
+            GPIO.output(pin, GPIO.HIGH)
+            time.sleep(duty_cycle / 1000.0)
+
+        if duty_cycle < 100:
+            GPIO.output(pin, GPIO.LOW)
+            time.sleep((100 - duty_cycle) / 1000.0)
+
     def to_gpio(self, msg):
+        print("Received message in to_gpio callback.")
         self.get_logger().info("toGpio callback called.")
 
         if not msg:
@@ -46,29 +63,20 @@ class SubscriberNode(Node):
         self.joy_r = msg.data[0]
         self.joy_l = msg.data[1]
 
-        self.update_pwm(R, self.joy_r)
-        self.update_pwm(L, self.joy_l)
+        # PWM制御を行う
+        self.pwm_control(R, self.joy_r)
+        self.pwm_control(L, self.joy_l)
 
         self.get_logger().info(f"Right Joystick: {self.joy_r}, Left Joystick: {self.joy_l}")
 
-    def update_pwm(self, pin, duty_cycle):
-        duty_cycle = max(0, min(duty_cycle, 100))
-
-        if duty_cycle > 0:
-            GPIO.output(pin, GPIO.HIGH)
-            time.sleep(duty_cycle / 1000.0)
-
-        if duty_cycle < 100:
-            GPIO.output(pin, GPIO.LOW)
-            time.sleep((100 - duty_cycle) / 1000.0)
-
-def main(args=None):
-    rclpy.init(args=args)
+def main():
+    print("Starting ROS2 Node.")
+    rclpy.init()
     node = SubscriberNode()
     rclpy.spin(node)
     GPIO.cleanup()
     rclpy.shutdown()
+    print("ROS2 Node has been shutdown.")
 
 if __name__ == '__main__':
     main()
-

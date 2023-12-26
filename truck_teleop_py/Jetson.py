@@ -6,7 +6,7 @@ import time
 
 R = 15
 L = 18
-ENABLE_R = 22
+ENABLE_R = 13
 ENABLE_L = 16
 
 GPIO.setmode(GPIO.BOARD)

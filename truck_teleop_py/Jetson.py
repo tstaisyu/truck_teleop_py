@@ -53,7 +53,7 @@ class SubscriberNode(Node):
             return
 
         if len(msg.data) < 2:
-            self.get_logger().error("Invalid joystick data size: {len(msg.data)}")
+            self.get_logger().error(f"Invalid joystick data size: {len(msg.data)}")
             return
 
         self.joy_r = msg.data[0]
@@ -64,7 +64,7 @@ class SubscriberNode(Node):
         v_L = self.joy_l
         PWM_R.ChangeDutyCycle(v_R)
         PWM_L.ChangeDutyCycle(v_L)
-        self.get_logger().info("Right Joystick: {self.joy_r}, Left Joystick: {self.joy_l}")
+        self.get_logger().info(f"Right Joystick: {self.joy_r}, Left Joystick: {self.joy_l}")
 
 def main():
     print("Starting ROS2 Node.")

@@ -20,7 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'Jetson= truck_teleop_py:Jetson:main'
+            'Jetson= truck_teleop_py.Jetson:main'
         ],
     },
 )

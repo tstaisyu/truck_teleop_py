@@ -60,8 +60,8 @@ class SubscriberNode(Node):
         self.joy_l = msg.data[1]
 
         time.sleep(0.1)
-        v_R = self.joy_r + 1
-        v_L = self.joy_l + 1
+        v_R = self.joy_r
+        v_L = self.joy_l
         PWM_R.ChangeDutyCycle(v_R)
         PWM_L.ChangeDutyCycle(v_L)
         self.get_logger().info(f"Right Joystick: {self.joy_r}, Left Joystick: {self.joy_l}")

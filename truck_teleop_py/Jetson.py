@@ -4,7 +4,7 @@ from std_msgs.msg import Int32MultiArray
 import Jetson.GPIO as GPIO
 import time
 
-R = 13
+R = 15
 L = 18
 ENABLE_R = 22
 ENABLE_L = 16

@@ -65,16 +65,17 @@ class SubscriberNode(Node):
             return
 
         if len(msg.data) < 2:
-            self.get_logger().error(f"Invalid joystick data size: {len(msg.data)}")
+            self.get_logger().error("Invalid joystick data size: {len(msg.data)}")
             return
 
         self.joy_r = msg.data[0]
         self.joy_l = msg.data[1]
 
-        self.get_logger().info(f"Right Joystick: {self.joy_r}, Left Joystick: {self.joy_l}")
-        
+
+
         try:
             while True:
+                self.get_logger().info("Right Joystick: {self.joy_r}, Left Joystick: {self.joy_l}")
                 time.sleep(0.25)
                 v_R = self.joy_r
                 v_L = self.joy_l

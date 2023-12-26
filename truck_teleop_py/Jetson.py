@@ -24,6 +24,12 @@ class SubscriberNode(Node):
         GPIO.setup(L, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(ENABLE_R, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(ENABLE_L, GPIO.OUT, initial=GPIO.LOW)
+        PWM_R = GPIO.PWM(R, 50)
+        PWM_L = GPIO.PWM(L, 50)
+        v_R = 0
+        v_L = 0
+        PWM_R.start(v_R)
+        PWM_L.start(v_L)
 
         self.get_logger().info("GPIO setup completed.")
 
@@ -36,17 +42,17 @@ class SubscriberNode(Node):
 
         print("SubscriberNode initialization completed.")
 
-    def pwm_control(self, pin, duty_cycle):
-        print(f"Executing PWM control on pin {pin} with duty cycle {duty_cycle}")
-        duty_cycle = max(0, min(duty_cycle, 100))
-
-        if duty_cycle > 0:
-            GPIO.output(pin, GPIO.HIGH)
-            time.sleep(duty_cycle / 1000.0)
-
-        if duty_cycle < 100:
-            GPIO.output(pin, GPIO.LOW)
-            time.sleep((100 - duty_cycle) / 1000.0)
+#    def pwm_control(self, pin, duty_cycle):
+#        print(f"Executing PWM control on pin {pin} with duty cycle {duty_cycle}")
+#        duty_cycle = max(0, min(duty_cycle, 100))
+#
+#        if duty_cycle > 0:
+#            GPIO.output(pin, GPIO.HIGH)
+#            time.sleep(duty_cycle / 1000.0)
+#
+#        if duty_cycle < 100:
+#            GPIO.output(pin, GPIO.LOW)
+#            time.sleep((100 - duty_cycle) / 1000.0)
 
     def to_gpio(self, msg):
         print("Received message in to_gpio callback.")
@@ -63,9 +69,19 @@ class SubscriberNode(Node):
         self.joy_r = msg.data[0]
         self.joy_l = msg.data[1]
 
+        try:
+            while True:
+                time.sleep(0.25)
+                v_R = self.joy_r
+                v_L = self.joy_l
+                PWM_R.ChangeDutyCycle(v_R)
+                PWM_L.ChangeDutyCycle(v_L)
+        finally:
+            p.stop()
+
         # PWM制御を行う
-        self.pwm_control(R, self.joy_r)
-        self.pwm_control(L, self.joy_l)
+#        self.pwm_control(R, self.joy_r)
+#        self.pwm_control(L, self.joy_l)
 
         self.get_logger().info(f"Right Joystick: {self.joy_r}, Left Joystick: {self.joy_l}")
 

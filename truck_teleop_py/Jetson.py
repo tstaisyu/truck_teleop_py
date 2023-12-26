@@ -7,7 +7,7 @@ import time
 R = 13
 L = 18
 ENABLE_R = 22
-ENABLE_L = 13
+ENABLE_L = 16
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(R, GPIO.OUT, initial=GPIO.LOW)

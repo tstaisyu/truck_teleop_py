@@ -9,6 +9,18 @@ L = 18
 ENABLE_R = 22
 ENABLE_L = 13
 
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(R, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(L, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(ENABLE_R, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(ENABLE_L, GPIO.OUT, initial=GPIO.LOW)
+PWM_R = GPIO.PWM(R, 50)
+PWM_L = GPIO.PWM(L, 50)
+v_R = 0
+v_L = 0
+PWM_R.start(v_R)
+PWM_L.start(v_L)
+
 class SubscriberNode(Node):
     def __init__(self):
         super().__init__('subscriber')
@@ -19,17 +31,7 @@ class SubscriberNode(Node):
 
         self.get_logger().info("Setting up GPIO using JetsonGPIO...")
 
-        GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(R, GPIO.OUT, initial=GPIO.LOW)
-        GPIO.setup(L, GPIO.OUT, initial=GPIO.LOW)
-        GPIO.setup(ENABLE_R, GPIO.OUT, initial=GPIO.LOW)
-        GPIO.setup(ENABLE_L, GPIO.OUT, initial=GPIO.LOW)
-        PWM_R = GPIO.PWM(R, 50)
-        PWM_L = GPIO.PWM(L, 50)
-        v_R = 0
-        v_L = 0
-        PWM_R.start(v_R)
-        PWM_L.start(v_L)
+
 
         self.get_logger().info("GPIO setup completed.")
 

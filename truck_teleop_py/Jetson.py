@@ -44,18 +44,6 @@ class SubscriberNode(Node):
 
         print("SubscriberNode initialization completed.")
 
-#    def pwm_control(self, pin, duty_cycle):
-#        print(f"Executing PWM control on pin {pin} with duty cycle {duty_cycle}")
-#        duty_cycle = max(0, min(duty_cycle, 100))
-#
-#        if duty_cycle > 0:
-#            GPIO.output(pin, GPIO.HIGH)
-#            time.sleep(duty_cycle / 1000.0)
-#
-#        if duty_cycle < 100:
-#            GPIO.output(pin, GPIO.LOW)
-#            time.sleep((100 - duty_cycle) / 1000.0)
-
     def to_gpio(self, msg):
         print("Received message in to_gpio callback.")
         self.get_logger().info("toGpio callback called.")
@@ -71,20 +59,12 @@ class SubscriberNode(Node):
         self.joy_r = msg.data[0]
         self.joy_l = msg.data[1]
 
-
-
-        time.sleep(0.5)
+        time.sleep(0.1)
         v_R = self.joy_r
         v_L = self.joy_l
         PWM_R.ChangeDutyCycle(v_R)
         PWM_L.ChangeDutyCycle(v_L)
         self.get_logger().info("Right Joystick: {self.joy_r}, Left Joystick: {self.joy_l}")
-
-        # PWM制御を行う
-#        self.pwm_control(R, self.joy_r)
-#        self.pwm_control(L, self.joy_l)
-
-
 
 def main():
     print("Starting ROS2 Node.")

@@ -73,16 +73,12 @@ class SubscriberNode(Node):
 
 
 
-        try:
-            while True:
-                self.get_logger().info("Right Joystick: {self.joy_r}, Left Joystick: {self.joy_l}")
-                time.sleep(0.25)
-                v_R = self.joy_r
-                v_L = self.joy_l
-                PWM_R.ChangeDutyCycle(v_R)
-                PWM_L.ChangeDutyCycle(v_L)
-        finally:
-            p.stop()
+        time.sleep(0.5)
+        v_R = self.joy_r
+        v_L = self.joy_l
+        PWM_R.ChangeDutyCycle(v_R)
+        PWM_L.ChangeDutyCycle(v_L)
+        self.get_logger().info("Right Joystick: {self.joy_r}, Left Joystick: {self.joy_l}")
 
         # PWM制御を行う
 #        self.pwm_control(R, self.joy_r)
